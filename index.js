@@ -1,12 +1,15 @@
 const io = require('socket.io-client')('http://192.168.25.121:8080')
 
 var blessed = require('blessed'),
-screen = blessed.screen();    
+screen = blessed.screen({
+  debug: true
+});
 
 
-var tst = 'nao foi'
+var tst = null
 io.on('msgAnterios', function (res) {
-  tst = res;
+  console.log('RESPONSE FROM SERVR', res);
+  tst = res
 })
 
 
@@ -49,9 +52,6 @@ var greaterThanEdit = blessed.textarea({
   content: 'test',
 });
 
-
-
-
 var submit = blessed.button({
   parent: form,
   mouse: true,
@@ -79,7 +79,7 @@ var submit = blessed.button({
       }
     }
   });
-  
+
   // var cancel = blessed.button({
     //     parent: form,
     //     mouse: true,
@@ -105,42 +105,39 @@ var submit = blessed.button({
             // });
             getText = () => {
               greaterThanEdit.value
-              console.log('oi');
             }
-            
+
             submit.on('press', function() {
-              // greaterThanEdit.setText(tst[0]);
               io.emit('sendMsg', {
                 author: textAreaMessager.getText(),
                 password: null,
               });
               form.reset();
             });
-            
+
             // cancel.on('press', function() {
               //     form.reset();
               // });
-              
+
               // form.on('submit', function(data) {
                 //     form.setContent('Submitted.');
                 //     screen.render();
                 // });
-                
+
                 form.on('reset', function(data) {
                   form.setContent('Canceled.');
                   screen.render();
                 });
-                
+
                 screen.key('q', function() {
                   process.exit(0);
                 });
-                
+
                 screen.key('enter', function() {
                   greaterThanEdit.setText(textAreaMessager.getText());
                 });
-                
+
                 textAreaMessager.focus();
-                
-                
+
+
                 screen.render();
-                
