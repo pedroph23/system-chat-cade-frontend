@@ -9,6 +9,9 @@
   "author": "Pedro Henrique Guimarães Ramalho",
   "license": "ISC",
   "dependencies": {
-    "blessed": "^0.1.81"
+    "@types/blessed": "^0.1.11",
+    "blessed": "^0.1.81",
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
   }
 }

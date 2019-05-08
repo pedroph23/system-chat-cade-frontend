@@ -1,5 +1,13 @@
+
+// const express = require('ex/press')
+// const app = express();
+// const server = require('http').createServer(app);
+const socket = require('socket.io').listen('3000');
+
 var blessed = require('blessed'),
     screen = blessed.screen();
+
+    
 
 var form = blessed.form({
     parent: screen,
@@ -100,7 +108,8 @@ getText = () => {
 }
 
 submit.on('press', function() {
-  greaterThanEdit.setText(textAreaMessager.getText());
+  socket.emit('sendMsg', greaterThanEdit.setText(textAreaMessager.getText()));
+  form.reset();
     // form.submit();
 });
 
@@ -130,3 +139,5 @@ textAreaMessager.focus();
 
 
 screen.render();
+
+
